@@ -16,7 +16,7 @@ import { LinkIcon } from "lucide-react";
 
 function Header() {
   const navigate = useNavigate();
-  const user = true;
+  const user = false;
   return (
     <nav className="flex items-center justify-between py-4">
       <Link to={"/"}>

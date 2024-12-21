@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 function AppLayout() {
   return (<>
-  <main className="min-h-screen mx-auto container">
+  <main className="min-h-screen container mx-auto px-8">
       <Header/>
       <Outlet/>
   </main>
