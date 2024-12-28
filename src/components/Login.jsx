@@ -12,13 +12,34 @@ import { BeatLoader } from "react-spinners";
 import Error from "./ui/error";
 import { useState } from "react";
 import * as Yup from "yup";
+import useFetch from "@/hooks/use-fetch";
+import { login } from "@/db/apiAuth";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 function Login() {
+  let [searchParams] = useSearchParams();
+  const longLink = searchParams.get("createNew");
+  const navigate = useNavigate();
+
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  
+  const { data, loading, error, fn: fnLogin} = useFetch(login, formData);
+  const { fetchUser } = useState()
+  useEffect(() => {
+    console.log(data)
+    if (error === null && data) {
+      navigate(`dashboard?${longLink ? `createNew=${longLink}` : ""}`)
+      fetchUser()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, error])
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -40,6 +61,7 @@ function Login() {
       });
 
       await schema.validate(formData, { abortEarly: false });
+      await fnLogin();
     } catch (e) {
       const newErrors = {};
 
@@ -57,6 +79,7 @@ function Login() {
         <CardHeader>
           <CardTitle>Đăng nhập</CardTitle>
           <CardDescription>vào tài khoản đã sẳn có</CardDescription>
+          {error && <Error message={error.message} />}
         </CardHeader>
         <CardContent className="space-y-2">
           <div className="space-y-1">
@@ -70,7 +93,7 @@ function Login() {
         </CardContent>
         <CardFooter>
           <Button onClick={handleLogin}>
-            {true ? <BeatLoader size={10} color="#020817" /> : "Đăng nhập"}
+            {loading ? <BeatLoader size={10} color="#020817" /> : "Đăng nhập"}
           </Button>
         </CardFooter>
       </Card>
