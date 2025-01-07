@@ -1,6 +1,3 @@
-import { Link } from "react-router-dom";
-import { Button } from "./ui/button";
-import { useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,48 +6,69 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { LogOut } from "lucide-react";
-import { LinkIcon } from "lucide-react";
+import {logout} from "@/db/apiAuth";
+import useFetch from "@/hooks/use-fetch";
+import {Avatar, AvatarFallback, AvatarImage} from "@radix-ui/react-avatar";
+import {LinkIcon, LogOut} from "lucide-react";
+import {Link, useNavigate} from "react-router-dom";
+import {BarLoader} from "react-spinners";
+import {Button} from "./ui/button";
+import {UrlState} from "@/context";
 
-
-function Header() {
+const Header = () => {
+  const {loading, fn: fnLogout} = useFetch(logout);
   const navigate = useNavigate();
-  const user = false;
-  return (
-    <nav className="flex items-center justify-between py-4">
-      <Link to={"/"}>
-        <img src="./Linki.svg" className="h-16" alt="Linki Logo" />
-      </Link>
 
-      <div>
-        {
-          !user ?
-            <Button onClick={() => navigate("/auth")}>Đăng nhập</Button> :
-            (
-              <DropdownMenu>
-                <DropdownMenuTrigger className="w-10 rounded-full overflow-hidden">
-                  <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>Avt</AvatarFallback>
-                  </Avatar>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>MinhNhat</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                  <LinkIcon className="mr-2 h-4 w-4"/>
-                    Danh sách liên kết</DropdownMenuItem>
-                  <DropdownMenuItem className="text-red-400">
-                    <LogOut className="mr-2 h-4 w-4"/>
-                    Đăng xuất</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )
-        }
-      </div>
-    </nav>
+  const {user, fetchUser} = UrlState();
+
+  return (
+    <>
+      <nav className="py-4 flex justify-between items-center">
+        <Link to="/">
+          <img src="/Linki.svg" className="h-16" alt="Linki Logo" />
+        </Link>
+        <div className="flex gap-4">
+          {!user ? (
+            <Button onClick={() => navigate("/auth")}>Đăng nhập</Button>
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="w-10 rounded-full overflow-hidden">
+                <Avatar>
+                  <AvatarImage src={user?.user_metadata?.profile_pic} />
+                  <AvatarFallback>Avt</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>
+                  {user?.user_metadata?.name}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link to="/dashboard" className="flex">
+                    <LinkIcon className="mr-2 h-4 w-4" />
+                    Danh sách liên kết
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    fnLogout().then(() => {
+                      fetchUser();
+                      navigate("/auth");
+                    });
+                  }}
+                  className="text-red-400"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Đăng xuất</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+        </div>
+      </nav>
+      {loading && <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />}
+    </>
   );
-}
+};
 
 export default Header;

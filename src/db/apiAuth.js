@@ -44,7 +44,7 @@ export async function signup({ name, email, password, profile_pic }) {
   //   throw new Error('Ảnh đại diện phải là JPEG, PNG hoặc GIF.');
   // }
 
-  const fileName = `avt-${name.split(" ").join("-")}-${Math.random()}`;
+  const fileName = `avt-${email.split(" ").join("-")}-${Math.random()}`;
 
   // Tải ảnh lên Supabase Storage
   const { error: storageError } = await supabase.storage

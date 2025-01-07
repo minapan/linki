@@ -17,6 +17,7 @@ import { login } from "@/db/apiAuth";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
+import { UrlState } from "@/context";
 
 function Login() {
   let [searchParams] = useSearchParams();
@@ -35,11 +36,11 @@ function Login() {
   }
 
   const { data, loading, error, fn: fnLogin } = useFetch(login, formData);
-  const { fetchUser } = useState()
+  const {fetchUser} = UrlState();
   useEffect(() => {
     if (error === null && data) {
-      navigate(`/dashboard?${longLink ? `createNew=${longLink}` : ""}`)
       fetchUser()
+      navigate(`/dashboard?${longLink ? `createNew=${longLink}` : ""}`)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, error])
