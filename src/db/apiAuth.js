@@ -39,12 +39,12 @@ export async function signup({ name, email, password, profile_pic }) {
     throw new Error('Vui lòng chọn ảnh đại diện.');
   }
 
-  const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
-  if (!allowedImageTypes.includes(profile_pic.type)) {
-    throw new Error('Ảnh đại diện phải là JPEG, PNG hoặc GIF.');
-  }
+  // const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+  // if (!allowedImageTypes.includes(profile_pic.type)) {
+  //   throw new Error('Ảnh đại diện phải là JPEG, PNG hoặc GIF.');
+  // }
 
-  const fileName = `dp-${name.split(" ").join("-")}-${Math.random()}`;
+  const fileName = `avt-${name.split(" ").join("-")}-${Math.random()}`;
 
   // Tải ảnh lên Supabase Storage
   const { error: storageError } = await supabase.storage

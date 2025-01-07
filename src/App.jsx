@@ -7,38 +7,48 @@ import Auth from './pages/Auth'
 import Link from './pages/Link'
 import RedirectLink from './pages/RedirectLink'
 import { RouterProvider } from 'react-router-dom'
+import UrlProvider from './context'
+import RequireAuth from './components/ui/requied-auth'
 
 
 const router = createBrowserRouter([
   {
-    element: <AppLayout/>,
+    element: <AppLayout />,
     children: [
       {
         path: '/',
-        element: <LandingPage/>,
+        element: <LandingPage />,
       },
       {
         path: '/dashboard',
-        element: <Dashboard/>,
+        element: 
+        <RequireAuth>
+          <Dashboard />
+        </RequireAuth>
       },
       {
         path: '/auth',
-        element: <Auth/>,
+        element: <Auth />,
       },
       {
         path: '/link/:id',
-        element: <Link/>,
+        element: 
+        <RequireAuth>
+          <Link />,
+        </RequireAuth>
       },
       {
         path: '/:id',
-        element: <RedirectLink/>,
+        element: <RedirectLink />,
       },
     ]
   }
 ])
 function App() {
   return (
-    <RouterProvider router={router} />
+    <UrlProvider>
+      <RouterProvider router={router} />
+    </UrlProvider>
   )
 }
 
