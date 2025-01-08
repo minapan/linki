@@ -11,34 +11,41 @@ function Auth() {
   let [searchParams] = useSearchParams();
   const longLink = searchParams.get("createNew");
   const { isAuthenticated, loading } = UrlState();
-  const {user, fetchUser} = UrlState();
+  const { user, fetchUser } = UrlState();
   const navigate = useNavigate();
   const { fn: fnLogout } = useFetch(logout);
 
   return (
     <div className="flex flex-col items-center gap-10 mt-18">
       {isAuthenticated && !loading ? (
-        // Hiển thị nếu người dùng đã đăng nhập
         <>
-          <h1 className="text-4xl font-extrabold">Bạn đã đăng nhập vào tài khoản  
+          <h1 className="text-4xl font-extrabold">Bạn đã đăng nhập vào tài khoản
             <span className="text-green-500"> {user?.user_metadata.name}</span>!</h1>
           <p className="text-lg">
-            Vui lòng đăng xuất trước khi tiếp tục thực hiện các thao tác khác.
+            Vui lòng đăng xuất trước khi đăng nhập vào tài khoản khác.
           </p>
-          <button
-            onClick={() => {
-              fnLogout().then(() => {
-                fetchUser();
-                navigate("/auth");
-              });
-            }}
-            className="px-6 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-          >
-            Đăng xuất
-          </button>
+          <div className="flex gap-6">
+            <button
+              onClick={() => {
+                fnLogout().then(() => {
+                  fetchUser();
+                  navigate("/auth");
+                });
+              }}
+              className="px-6 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+            >
+              Đăng xuất
+            </button>
+            <button
+              onClick={() => {navigate("/")}}
+              className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Về trang chủ
+            </button>
+          </div>
+
         </>
       ) : (
-        // Hiển thị giao diện đăng nhập / đăng ký
         <>
           <h1 className="text-4xl font-extrabold">
             {longLink ? "Bạn cần đăng nhập trước đã..." : "Đăng nhập / Đăng ký"}
@@ -56,8 +63,9 @@ function Auth() {
             </TabsContent>
           </Tabs>
         </>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 }
 

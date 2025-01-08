@@ -8,8 +8,6 @@ export async function login({ email, password }) {
   
   if (error) {
     let errorMessage = '';
-    
-    // Xử lý lỗi dựa trên mã lỗi (error.code)
     switch (error.code) {
       case 'invalid_credentials':
         errorMessage = 'Thông tin đăng nhập không hợp lệ. Vui lòng kiểm tra lại email và mật khẩu.';
@@ -34,7 +32,6 @@ export async function login({ email, password }) {
 
 
 export async function signup({ name, email, password, profile_pic }) {
-  // Kiểm tra nếu profile_pic không tồn tại hoặc không phải là ảnh
   if (!profile_pic) {
     throw new Error('Vui lòng chọn ảnh đại diện.');
   }
@@ -46,7 +43,6 @@ export async function signup({ name, email, password, profile_pic }) {
 
   const fileName = `avt-${email.split(" ").join("-")}-${Math.random()}`;
 
-  // Tải ảnh lên Supabase Storage
   const { error: storageError } = await supabase.storage
     .from("profile_pic")
     .upload(fileName, profile_pic);
@@ -55,7 +51,6 @@ export async function signup({ name, email, password, profile_pic }) {
     throw new Error(storageError.message || 'Đã xảy ra lỗi khi tải ảnh lên.');
   }
 
-  // Đăng ký người dùng
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
@@ -67,7 +62,6 @@ export async function signup({ name, email, password, profile_pic }) {
     },
   });
 
-  // Xử lý lỗi đăng ký người dùng
   if (error) {
     let errorMessage = '';
     switch (error.code) {
