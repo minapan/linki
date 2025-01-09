@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { BarLoader } from "react-spinners";
 import LinkCard from "@/components/link-card";
+import CreateLink from "@/components/create-link";
 
 function Dashboard() {
   const [ searchQuery, setSearchQuery ] = useState("");
@@ -57,7 +58,7 @@ function Dashboard() {
 
     <div className="flex justify-between my-5">
       <h1 className="text-3xl font-bold">Các liên kết</h1>
-      <Button>Tạo liên kết</Button>
+      <CreateLink />
     </div>
 
     <div className="relative mb-4">

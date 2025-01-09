@@ -8,7 +8,7 @@ import Link from './pages/Link'
 import RedirectLink from './pages/RedirectLink'
 import { RouterProvider } from 'react-router-dom'
 import UrlProvider from './context'
-import RequireAuth from './components/ui/requied-auth'
+import RequireAuth from './components/requied-auth'
 
 
 const router = createBrowserRouter([
@@ -34,7 +34,7 @@ const router = createBrowserRouter([
         path: '/link/:id',
         element: 
         <RequireAuth>
-          <Link />,
+          <Link />
         </RequireAuth>
       },
       {
