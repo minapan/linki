@@ -9,7 +9,7 @@ import RedirectLink from './pages/RedirectLink'
 import { RouterProvider } from 'react-router-dom'
 import UrlProvider from './context'
 import RequireAuth from './components/requied-auth'
-
+import NotFoundPage from './pages/404'
 
 const router = createBrowserRouter([
   {
@@ -40,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: '/:id',
         element: <RedirectLink />,
+      },
+      {
+        path: '/error/404', 
+        element: <NotFoundPage/>,
       },
     ]
   }

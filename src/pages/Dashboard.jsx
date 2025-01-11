@@ -38,8 +38,6 @@ function Dashboard() {
   }, [urls?.length]);
 
   return (<>
-    {loading || loadingClicks && <BarLoader width={"100%"} color={"#36d7b7"} />}
-
     <div className="grid grid-cols-2 gap-4">
       <Card>
         <CardHeader>
@@ -64,6 +62,7 @@ function Dashboard() {
       <Input type="text" placeholder="Tìm kiếm..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}></Input>
       <Filter className="absolute right-2 top-2" />
     </div>
+    {(loading || loadingClicks) && (<BarLoader width={"100%"} color={"#36d7b7"} />)}
     {error && <Error message={error?.message} />}
     {(filteredUrls || []).map((url, i) => (
         <LinkCard key={i} url={url} fetchUrls={fnUrls} />

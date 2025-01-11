@@ -38,6 +38,21 @@ export async function storeClicks({ id, originalUrl }) {
       ])
     window.location.href = originalUrl;
   } catch (error) {
-    console.error("Error storing clicks", error);
+    console.error("Có lỗi khi lưu lịch sử", error);
   }
 }
+
+export async function getClicksForUrl(url_id) {
+  let {data, error} = await supabase
+    .from("clicks")
+    .select("*")
+    .eq("url_id", url_id)
+
+  if (error) {
+    console.error("Error getting clicks:", error);
+    return;
+  }
+
+  return data;
+}
+

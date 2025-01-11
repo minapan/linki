@@ -91,7 +91,7 @@ function CreateLink() {
         {errors.longUrl && <Error message={errors.longUrl} />}
         <div className="flex items-center gap-2">
           <Card className="p-2">localhost:5173</Card>/
-          <Input id="customUrl" placeholder="Liên kết tùy chỉnh (Không bắt buộc)" value={formData.customUrl} onChange={handleChange} />
+          <Input id="customUrl" placeholder="Tùy chỉnh..." value={formData.customUrl} onChange={handleChange} />
         </div>
         {error && <Error message={error.message} />}
         <DialogFooter className="flex sm:justify-between sm:items-top">

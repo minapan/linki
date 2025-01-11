@@ -30,7 +30,6 @@ export async function login({ email, password }) {
   return data;
 }
 
-
 export async function signup({ name, email, password, profile_pic }) {
   if (!profile_pic) {
     throw new Error('Vui lòng chọn ảnh đại diện.');
