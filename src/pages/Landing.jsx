@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 function Landing() {
   const [longUrl, setLongUrl] = useState("")
   const navigate = useNavigate()
+  
   const handleShorten = (e) => {
     e.preventDefault();
     if (longUrl) navigate(`/auth?createNew=${longUrl}`)

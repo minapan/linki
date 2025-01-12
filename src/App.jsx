@@ -45,6 +45,10 @@ const router = createBrowserRouter([
         path: '/error/404', 
         element: <NotFoundPage/>,
       },
+      {
+        path: '*',
+        element: <NotFoundPage />,
+      },
     ]
   }
 ])

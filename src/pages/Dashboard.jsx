@@ -47,7 +47,7 @@ function Dashboard() {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Tổng số lượt mở</CardTitle>
+          <CardTitle>Tổng số lượt clicks</CardTitle>
         </CardHeader>
         <CardContent><p>{clicks?.length || 0}</p></CardContent>
       </Card>

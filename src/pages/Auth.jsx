@@ -4,22 +4,27 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UrlState } from "@/context";
 import { logout } from "@/db/apiAuth";
 import useFetch from "@/hooks/use-fetch";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 
 function Auth() {
+  const navigate = useNavigate();
   let [searchParams] = useSearchParams();
   const longLink = searchParams.get("createNew");
+  useEffect(() => {
+    if (longLink && isAuthenticated) navigate(`/dashboard?createNew=${longLink}`);
+  }, []);
+  
   const { isAuthenticated, loading } = UrlState();
   const { user, fetchUser } = UrlState();
-  const navigate = useNavigate();
   const { fn: fnLogout } = useFetch(logout);
 
   return (
     <div className="flex flex-col items-center gap-10 mt-18">
       {isAuthenticated && !loading ? (
         <>
-          <h1 className="text-4xl font-extrabold">Bạn đã đăng nhập vào tài khoản
+          <h1 className="text-4xl font-extrabold text-balance">Bạn đã đăng nhập vào tài khoản
             <span className="text-green-500"> {user?.user_metadata.name}</span>!</h1>
           <p className="text-lg">
             Vui lòng đăng xuất trước khi đăng nhập vào tài khoản khác.

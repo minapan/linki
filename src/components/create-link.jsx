@@ -38,7 +38,7 @@ function CreateLink() {
 
   const schema = Yup.object().shape({
     title: Yup.string()
-      .required("Email là bắt buộc"),
+      .required("Tiêu đề là bắt buộc"),
     longUrl: Yup.string()
       .required("Url là bắt buộc")
       .url("Url không hợp lệ"),
