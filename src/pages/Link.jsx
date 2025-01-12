@@ -1,3 +1,5 @@
+import DeviceStats from "@/components/device-stats";
+import Location from "@/components/local-stats";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { UrlState } from "@/context";
@@ -31,16 +33,19 @@ function Link() {
   const navigate = useNavigate()
   const { user } = UrlState()
   const { id } = useParams()
-  const { loading, data: url, fn, error } = useFetch(getUrl, { id, user_id: user?.id })
+  const { loading, data: url, fn, error} = useFetch(getUrl, { id, user_id: user?.id })
   const { loading: loadingStats, data: stats, fn: fnStats } = useFetch(getClicksForUrl, id)
-  const { loading: loadingDelete, error: errorDelete, fn: fnDelete } = useFetch(deleteUrl, id)
+  const { loading: loadingDelete, fn: fnDelete } = useFetch(deleteUrl, id)
 
   useEffect(() => {
-    fn()
-    fnStats()
-  }, [])
+    fn();
+  }, []);
 
-  // if (!loading && !url) navigate("/error/404")
+  useEffect(() => {
+    if (!error && loading === false) fnStats();
+  }, [loading, error]);
+
+  if (!loading && !url) navigate("/error/404")
 
   let link = ""
   if (url) {
@@ -103,10 +108,10 @@ function Link() {
                 </CardContent>
               </Card>
 
-              <CardTitle>Vùng địa lý</CardTitle>
-              {/* <Location stats={stats} /> */}
+              <CardTitle>Vị trí</CardTitle>
+              <Location stats={stats} />
               <CardTitle>Thiết bị</CardTitle>
-              {/* <DeviceStats stats={stats} /> */}
+              <DeviceStats stats={stats} />
             </CardContent>
           ) : (
             <CardContent>
