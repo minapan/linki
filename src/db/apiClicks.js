@@ -13,7 +13,7 @@ export async function getClicks(url_id) {
 
 const parser = new UAParser();
 
-export async function storeClicks({ id, originalUrl }) {
+export async function storeClicks({ id }) {
   try {
     const resUA = parser.getResult();
     const device = resUA.os.name || "Unknown device";
@@ -22,21 +22,20 @@ export async function storeClicks({ id, originalUrl }) {
     const apiKey = import.meta.env.VITE_IPINFO_API_KEY;
     const geoRes = await fetch(`https://ipinfo.io/json?token=${apiKey}`);
     const geoData = await geoRes.json();
-    const city = geoData.city + ", " + geoData.region || "Unknown city";
+    const city = geoData.city || "Unknown city";
     const country_name = geoData.country || "Unknown country";
 
-    await supabase
-      .from("clicks")
-      .insert([
-        {
-          url_id: id,
-          device,
-          browser,
-          city,
-          country: country_name,
-        },
-      ])
-    window.location.href = originalUrl;
+    // await supabase
+    //   .from("clicks")
+    //   .insert([
+    //     {
+    //       url_id: id,
+    //       device,
+    //       browser,
+    //       city,
+    //       country: country_name,
+    //     },
+    //   ])
   } catch (error) {
     console.error("Có lỗi khi lưu lịch sử", error);
   }

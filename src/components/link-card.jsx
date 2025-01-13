@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Copy, Download, LinkIcon, Trash } from "lucide-react";
+import { Copy, Download, Trash } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import useFetch from "@/hooks/use-fetch";
@@ -38,9 +38,8 @@ const LinkCard = ({ url = [], fetchUrls }) => {
         <span className="text-2xl text-blue-400 font-bold hover:underline cursor-pointer">
           http://localhost:5173/{url?.custom_url ? url?.custom_url : url.short_url}
         </span>
-        <span className="flex items-center gap-2 hover:underline cursor-pointer">
-          <LinkIcon className="p-0" /> 
-          <span className="truncate">{url?.original_url}</span> 
+        <span className="hover:underline cursor-pointer truncate">
+          {url?.original_url}
         </span>
 
         <span className="flex items-end font-extralight text-sm flex-1">

@@ -70,10 +70,9 @@ export async function createUrl({ title, longUrl, customUrl, user_id }, qrcode) 
 export async function getLongUrl(param) {
   let { data: shortLinkData, error: shortLinkError } = await supabase
     .from("urls")
-    .select("id, original_url")
+    .select("id, original_url, title, created_at")
     .or(`short_url.eq.${param},custom_url.eq.${param}`)
     .single();
-  // console.log("Short link data:", shortLinkData);
 
   if (shortLinkError && shortLinkError.code !== "PGRST116") {
     console.error("Error fetching short link:", shortLinkError);

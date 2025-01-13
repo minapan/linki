@@ -1,5 +1,5 @@
 import DeviceStats from "@/components/device-stats";
-import Location from "@/components/local-stats";
+import Location from "@/components/location-stats";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { UrlState } from "@/context";
@@ -59,7 +59,7 @@ function Link() {
         <span className="text-5xl font-extrabold">{url?.title}</span>
         <a href={`http://localhost:5173/${link}`} target="_blank"
           className="text-2xl sm:text-3xl text-blue-400 font-bold hover:underline cursor-pointer">
-          http://localhost:5173/${link}
+          {`http://localhost:5173/${link}`}
         </a>
         <a href={url?.original_url} target="_blank"
           className="flex items-center gap-1 hover:underline cursor-pointer">
