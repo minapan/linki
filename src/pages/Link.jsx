@@ -3,6 +3,7 @@ import DeviceStats from "@/components/device-stats";
 import Location from "@/components/location-stats";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast"
 import { UrlState } from "@/context";
 import { getClicksForUrl } from "@/db/apiClicks";
 import { deleteUrl, getUrl } from "@/db/apiUrls";
@@ -16,6 +17,7 @@ import { useParams } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 
 function Link() {
+  const { toast } = useToast()
   const downloadImage = () => {
     const imageUrl = url?.qr;
     const fileName = url?.title;
@@ -77,8 +79,12 @@ function Link() {
           {url?.password && (<Button
             className="p-4"
             variant="ghost"
-            onClick={() =>
+            onClick={() => {
               navigator.clipboard.writeText(url?.password)
+              toast({
+                description: "Đã chép mật khẩu"
+              })
+            }
             }
           >
             <Copy />
@@ -89,8 +95,12 @@ function Link() {
         <div className="flex gap-2">
           <Button
             variant="ghost"
-            onClick={() =>
-              navigator.clipboard.writeText(`http://localhost:5173/${url?.short_url}`)
+            onClick={() => {
+              navigator.clipboard.writeText(`http://localhost:5173/${url?.custom_url ? url?.custom_url : url.short_url}`)
+              toast({
+                description: "Đã chép liên kết"
+              })
+            }
             }
           >
             <Copy />
