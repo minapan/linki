@@ -38,7 +38,7 @@ const LinkCard = ({ url = [], fetchUrls }) => {
           {url?.title}
         </span>
         <span className="text-xl text-blue-400 font-bold hover:underline cursor-pointer line-clamp-2">
-          http://localhost:5173/{url?.custom_url ? url?.custom_url : url.short_url}
+          https://linki.nhatphan.id.vn/{url?.custom_url ? url?.custom_url : url.short_url}
         </span>
         <span className="hover:underline cursor-pointer line-clamp-2">
           {url?.original_url}
@@ -52,7 +52,7 @@ const LinkCard = ({ url = [], fetchUrls }) => {
         <Button
           variant="ghost"
           onClick={() => {
-            navigator.clipboard.writeText(`http://localhost:5173/${url?.custom_url ? url?.custom_url : url.short_url}`)
+            navigator.clipboard.writeText(`https://linki.nhatphan.id.vn/${url?.custom_url ? url?.custom_url : url.short_url}`)
             toast({
               description: "Đã chép liên kết"
             })

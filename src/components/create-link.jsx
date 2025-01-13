@@ -103,7 +103,7 @@ function CreateLink() {
         {errors.longUrl && <Error message={errors.longUrl} />}
         <Input id="password" placeholder="Mật khẩu (Tùy chọn)" value={formData.password} onChange={handleChange} />
         <div className="flex items-center gap-2">
-          <Card className="p-2">localhost:5173</Card>/
+          <Card className="p-2">linki.nhatphan.id.vn</Card>/
           <Input id="customUrl" placeholder="Tùy chỉnh..." value={formData.customUrl} onChange={handleChange} />
         </div>
         {error && <Error message={error.message} />}

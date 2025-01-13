@@ -59,9 +59,9 @@ function Link() {
     <div className="flex flex-col gap-6 sm:flex-row justify-between max-w-full">
       {!loading && <div className="flex flex-col items-start gap-4 rounded-lg sm:w-2/5">
         <span className="text-5xl font-extrabold">{url?.title}</span>
-        <a href={`http://localhost:5173/${link}`} target="_blank"
+        <a href={`https://linki.nhatphan.id.vn/${link}`} target="_blank"
           className="text-2xl sm:text-3xl text-blue-400 font-bold hover:underline cursor-pointer break-all">
-          {`http://localhost:5173/${link}`}
+          {`https://linki.nhatphan.id.vn/${link}`}
         </a>
         <a
           href={url?.original_url}
@@ -96,7 +96,7 @@ function Link() {
           <Button
             variant="ghost"
             onClick={() => {
-              navigator.clipboard.writeText(`http://localhost:5173/${url?.custom_url ? url?.custom_url : url.short_url}`)
+              navigator.clipboard.writeText(`https://linki.nhatphan.id.vn/${url?.custom_url ? url?.custom_url : url.short_url}`)
               toast({
                 description: "Đã chép liên kết"
               })

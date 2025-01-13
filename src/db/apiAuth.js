@@ -1,11 +1,11 @@
-import supabase, {supabaseUrl} from "./supabase";
+import supabase, { supabaseUrl } from "./supabase";
 
 export async function login({ email, password }) {
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   });
-  
+
   if (error) {
     let errorMessage = '';
     switch (error.code) {
@@ -82,9 +82,37 @@ export async function signup({ name, email, password, profile_pic }) {
   return data;
 }
 
+export async function resetPassword({ email, newPassword = null }) {
+  console.log("Gửi yêu cầu reset mật khẩu với email:", email);
+  try {
+    if (newPassword) {
+      const { data, error } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
+
+      if (error) {
+        throw error;
+      }
+      return { data };
+    } else {
+      const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: "http://localhost:5173/account/reset-password",
+      });
+
+      if (error) {
+        throw error;
+      }
+      return { data };
+    }
+  } catch (error) {
+    throw new Error(error.message || "Có lỗi xảy ra trong quá trình xử lý yêu cầu");
+  }
+}
+
+
 
 export async function getCurrentUser() {
-  const {data: session, error} = await supabase.auth.getSession();
+  const { data: session, error } = await supabase.auth.getSession();
   if (!session.session) return null;
 
   // const {data, error} = await supabase.auth.getUser();
@@ -94,6 +122,6 @@ export async function getCurrentUser() {
 }
 
 export async function logout() {
-  const {error} = await supabase.auth.signOut();
+  const { error } = await supabase.auth.signOut();
   if (error) throw new Error(error.message);
 }
