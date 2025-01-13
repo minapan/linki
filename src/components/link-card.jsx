@@ -25,48 +25,49 @@ const LinkCard = ({ url = [], fetchUrls }) => {
   const { loading: loadingDelete, fn: fnDelete } = useFetch(deleteUrl, url.id);
 
   return (
-    <div className="flex flex-col md:flex-row gap-5 border p-4 bg-gray-900 rounded-lg break-all">
-      <img
-        src={url?.qr}
-        className="h-32 object-contain ring ring-blue-500 self-start"
-        alt="qr code"
-      />
-      <Link to={`/link/${url?.id}`} className="flex flex-col flex-1">
-        <span className="text-3xl font-extrabold hover:underline cursor-pointer">
-          {url?.title}
-        </span>
-        <span className="text-2xl text-blue-400 font-bold hover:underline cursor-pointer">
-          http://localhost:5173/{url?.custom_url ? url?.custom_url : url.short_url}
-        </span>
-        <span className="hover:underline cursor-pointer truncate">
-          {url?.original_url}
-        </span>
+    <div className="flex flex-col md:flex-row gap-5 border p-4 bg-gray-900 rounded-lg break-all max-w-full overflow-x-hidden">
+  <img
+    src={url?.qr}
+    className="h-32 object-contain ring ring-blue-500 self-start"
+    alt="qr code"
+  />
+  <Link to={`/link/${url?.id}`} className="flex flex-col flex-1 overflow-hidden">
+    <span className="text-2xl font-extrabold hover:underline cursor-pointer truncate">
+      {url?.title}
+    </span>
+    <span className="text-xl text-blue-400 font-bold hover:underline cursor-pointer truncate">
+      http://localhost:5173/{url?.custom_url ? url?.custom_url : url.short_url}
+    </span>
+    <span className="hover:underline cursor-pointer truncate">
+      {url?.original_url}
+    </span>
 
-        <span className="flex items-end font-extralight text-sm flex-1">
-          {new Date(url?.created_at).toLocaleString()}
-        </span>
-      </Link>
-      <div className="flex gap-2">
-        <Button
-          variant="ghost"
-          onClick={() =>
-            navigator.clipboard.writeText(`http://localhost:5173/${url?.short_url}`)
-          }
-        >
-          <Copy />
-        </Button>
-        <Button variant="ghost" onClick={downloadImage}>
-          <Download />
-        </Button>
-        <Button
-          variant="ghost"
-          onClick={() => fnDelete().then(() => fetchUrls())}
-          disable={loadingDelete}
-        >
-          {loadingDelete ? <BeatLoader size={5} color="white" /> : <Trash />}
-        </Button>
-      </div>
-    </div>
+    <span className="flex items-end font-extralight text-sm flex-1">
+      {new Date(url?.created_at).toLocaleString()}
+    </span>
+  </Link>
+  <div className="flex gap-2">
+    <Button
+      variant="ghost"
+      onClick={() =>
+        navigator.clipboard.writeText(`http://localhost:5173/${url?.short_url}`)
+      }
+    >
+      <Copy />
+    </Button>
+    <Button variant="ghost" onClick={downloadImage}>
+      <Download />
+    </Button>
+    <Button
+      variant="ghost"
+      onClick={() => fnDelete().then(() => fetchUrls())}
+      disable={loadingDelete}
+    >
+      {loadingDelete ? <BeatLoader size={5} color="white" /> : <Trash />}
+    </Button>
+  </div>
+</div>
+
   );
 };
 

@@ -1,22 +1,27 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { storeClicks } from "@/db/apiClicks";
 import { getLongUrl } from "@/db/apiUrls";
 import useFetch from "@/hooks/use-fetch";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { QRCode } from "react-qrcode-logo";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 
 const RedirectLink = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { id } = useParams();
   const { loading, data, fn } = useFetch(getLongUrl, id);
 
   const { loading: loadingStats, fn: fnStats } = useFetch(storeClicks, {
     id: data?.id,
   });
+
+  const [password, setPassword] = useState(""); 
+  const [isPasswordCorrect, setIsPasswordCorrect] = useState(true); 
+  const [isModalOpen, setIsModalOpen] = useState(false); 
 
   useEffect(() => {
     fn();
@@ -26,10 +31,25 @@ const RedirectLink = () => {
     if (!loading && data) {
       fnStats();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
 
-  if (!loading && !data) navigate("/error/404")
+  if (!loading && !data) navigate("/error/404");
+
+  const handlePasswordSubmit = () => {
+    if (password === data?.password) {
+      window.location.href = data?.original_url; 
+    } else {
+      setIsPasswordCorrect(false);
+    }
+  };
+
+  const openModal = () => {
+    if (data?.password) {
+      setIsModalOpen(true);
+    } else {
+      window.location.href = data?.original_url; 
+    }
+  };
 
   return (
     (!loading && !loadingStats) ? (
@@ -41,11 +61,41 @@ const RedirectLink = () => {
           </p>
           <div className="flex flex-col items-center space-y-4">
             <Button
-              onClick={() => window.location.href = data?.original_url}
+              onClick={openModal} 
               className="w-full px-6 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-300"
             >
               Mở liên kết ngay!
             </Button>
+
+            <Dialog open={isModalOpen} onOpenChange={(open) => setIsModalOpen(open)}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className="font-bold text-2xl">Nhập mật khẩu</DialogTitle>
+                </DialogHeader>
+
+                <div className="space-y-4">
+                  <Input
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Nhập mật khẩu"
+                    className="w-full px-4 py-2 border rounded-lg"
+                  />
+                  {!isPasswordCorrect && (
+                    <p className="text-red-500 text-sm">Mật khẩu không đúng!</p>
+                  )}
+                </div>
+
+                <DialogFooter>
+                  <Button
+                    onClick={handlePasswordSubmit}
+                    className="w-full px-6 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600"
+                  >
+                    Xác nhận
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+
             <Dialog className>
               <DialogTrigger asChild>
                 <Button
@@ -55,7 +105,6 @@ const RedirectLink = () => {
                 </Button>
               </DialogTrigger>
 
-              {/* Modal */}
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle className="font-bold text-2xl">Linki QR Code</DialogTitle>
@@ -70,9 +119,10 @@ const RedirectLink = () => {
                 </DialogFooter>
               </DialogContent>
             </Dialog>
+
             <Button
               onClick={() => navigate(`/`)}
-              className="w-full px-6 py-3 "
+              className="w-full px-6 py-3"
             >
               Rút gọn liên kết mới
             </Button>

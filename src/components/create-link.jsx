@@ -32,6 +32,7 @@ function CreateLink() {
   const [formData, setFormData] = useState({
     title: "",
     longUrl: longLink ? longLink : "",
+    password: "",
     customUrl: "",
   });
   const { data, loading, error, fn: fnCreate } = useFetch(createUrl, { ...formData, user_id: user.id });
@@ -42,6 +43,7 @@ function CreateLink() {
     longUrl: Yup.string()
       .required("Url là bắt buộc")
       .url("Url không hợp lệ"),
+    password: Yup.string(),
     customUrl: Yup.string()
   });
 
@@ -56,6 +58,15 @@ function CreateLink() {
       [e.target.id]: e.target.value
     })
   };
+
+  const handleReset = () => {
+    setFormData({
+      title: "",
+      longUrl: "",
+      password: "",
+      customUrl: "",
+    });
+  }
 
   const createNewLink = async () => {
     setErrors({});
@@ -89,6 +100,8 @@ function CreateLink() {
         {errors.title && <Error message={errors.title} />}
         <Input id="longUrl" placeholder="Nhập liên kết cần rút gọn" value={formData.longUrl} onChange={handleChange} />
         {errors.longUrl && <Error message={errors.longUrl} />}
+        <Input id="password" placeholder="Mật khẩu (Tùy chọn)" value={formData.password} onChange={handleChange} />
+        {errors.password && <Error message={errors.password} />}
         <div className="flex items-center gap-2">
           <Card className="p-2">localhost:5173</Card>/
           <Input id="customUrl" placeholder="Tùy chỉnh..." value={formData.customUrl} onChange={handleChange} />
@@ -96,9 +109,12 @@ function CreateLink() {
         {error && <Error message={error.message} />}
         <DialogFooter className="flex sm:justify-between sm:items-top">
           {formData?.longUrl && <QRCode value={formData?.longUrl} size={200} ref={ref} />}
-          <div className="flex justify-end w-full">
-            <Button disabled={loading} onClick={createNewLink} className="mb-4" type="submit">
-              {loading ? <BeatLoader size={10} color="#020817" /> : "Tạo"}
+          <div className="flex justify-end w-full gap-4 mb-4">
+            <Button disabled={loading} onClick={handleReset}>
+              Nhập lại
+            </Button>
+            <Button disabled={loading} onClick={createNewLink} className="bg-indigo-600 text-white hover:bg-indigo-500" type="submit">
+              {loading ? <BeatLoader size={10} color="#020817" /> : "Rút gọn"}
             </Button>
           </div>
         </DialogFooter>

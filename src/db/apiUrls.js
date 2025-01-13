@@ -29,7 +29,7 @@ export async function deleteUrl(id) {
   return data;
 }
 
-export async function createUrl({ title, longUrl, customUrl, user_id }, qrcode) {
+export async function createUrl({ title, longUrl, password, customUrl, user_id }, qrcode) {
   const short_url = Math.random().toString(36).substring(2, 6);
   const fileName = `qr-${short_url}`;
 
@@ -49,6 +49,7 @@ export async function createUrl({ title, longUrl, customUrl, user_id }, qrcode) 
         title,
         user_id,
         original_url: longUrl,
+        password: password || null,
         custom_url: customUrl || null,
         short_url,
         qr,
@@ -70,7 +71,7 @@ export async function createUrl({ title, longUrl, customUrl, user_id }, qrcode) 
 export async function getLongUrl(param) {
   let { data: shortLinkData, error: shortLinkError } = await supabase
     .from("urls")
-    .select("id, original_url, title, created_at")
+    .select("id, original_url, title, password")
     .or(`short_url.eq.${param},custom_url.eq.${param}`)
     .single();
 
