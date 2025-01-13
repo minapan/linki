@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import { Copy, Download, Trash } from "lucide-react";
+import { Copy, Download } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import useFetch from "@/hooks/use-fetch";
 import { deleteUrl } from "@/db/apiUrls";
-import { BeatLoader } from "react-spinners";
+import DeleteLink from "./delete-link";
 
 const LinkCard = ({ url = [], fetchUrls }) => {
   const downloadImage = () => {
@@ -32,13 +32,13 @@ const LinkCard = ({ url = [], fetchUrls }) => {
     alt="qr code"
   />
   <Link to={`/link/${url?.id}`} className="flex flex-col flex-1 overflow-hidden">
-    <span className="text-2xl font-extrabold hover:underline cursor-pointer truncate">
+    <span className="text-2xl font-extrabold hover:underline cursor-pointer line-clamp-2">
       {url?.title}
     </span>
-    <span className="text-xl text-blue-400 font-bold hover:underline cursor-pointer truncate">
+    <span className="text-xl text-blue-400 font-bold hover:underline cursor-pointer line-clamp-2">
       http://localhost:5173/{url?.custom_url ? url?.custom_url : url.short_url}
     </span>
-    <span className="hover:underline cursor-pointer truncate">
+    <span className="hover:underline cursor-pointer line-clamp-2">
       {url?.original_url}
     </span>
 
@@ -58,13 +58,14 @@ const LinkCard = ({ url = [], fetchUrls }) => {
     <Button variant="ghost" onClick={downloadImage}>
       <Download />
     </Button>
-    <Button
+    {/* <Button
       variant="ghost"
       onClick={() => fnDelete().then(() => fetchUrls())}
       disable={loadingDelete}
     >
       {loadingDelete ? <BeatLoader size={5} color="white" /> : <Trash />}
-    </Button>
+    </Button> */}
+    <DeleteLink fnDelete={fnDelete} onSuccess={fetchUrls} loadingDelete={loadingDelete}/>
   </div>
 </div>
 

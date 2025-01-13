@@ -1,3 +1,4 @@
+import DeleteLink from "@/components/delete-link";
 import DeviceStats from "@/components/device-stats";
 import Location from "@/components/location-stats";
 import { Button } from "@/components/ui/button";
@@ -6,14 +7,13 @@ import { UrlState } from "@/context";
 import { getClicksForUrl } from "@/db/apiClicks";
 import { deleteUrl, getUrl } from "@/db/apiUrls";
 import useFetch from "@/hooks/use-fetch";
-import { Trash } from "lucide-react";
 import { Download } from "lucide-react";
 import { Copy } from "lucide-react";
 import { LinkIcon } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { BarLoader, BeatLoader } from "react-spinners";
+import { BarLoader } from "react-spinners";
 
 function Link() {
   const downloadImage = () => {
@@ -98,13 +98,11 @@ function Link() {
           <Button variant="ghost" onClick={downloadImage}>
             <Download />
           </Button>
-          <Button
-            variant="ghost"
-            onClick={() => fnDelete().then(() => navigate("/dashboard"))}
-            disable={loadingDelete}
-          >
-            {loadingDelete ? <BeatLoader size={5} color="white" /> : <Trash />}
-          </Button>
+          <DeleteLink
+            fnDelete={fnDelete}
+            onSuccess={() => navigate("/dashboard")}
+            loadingDelete={loadingDelete}
+          />
         </div>
         <img
           src={url?.qr}

@@ -66,6 +66,7 @@ function CreateLink() {
       password: "",
       customUrl: "",
     });
+    setErrors({});
   }
 
   const createNewLink = async () => {
@@ -101,7 +102,6 @@ function CreateLink() {
         <Input id="longUrl" placeholder="Nhập liên kết cần rút gọn" value={formData.longUrl} onChange={handleChange} />
         {errors.longUrl && <Error message={errors.longUrl} />}
         <Input id="password" placeholder="Mật khẩu (Tùy chọn)" value={formData.password} onChange={handleChange} />
-        {errors.password && <Error message={errors.password} />}
         <div className="flex items-center gap-2">
           <Card className="p-2">localhost:5173</Card>/
           <Input id="customUrl" placeholder="Tùy chỉnh..." value={formData.customUrl} onChange={handleChange} />

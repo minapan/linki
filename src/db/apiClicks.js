@@ -23,19 +23,19 @@ export async function storeClicks({ id }) {
     const geoRes = await fetch(`https://ipinfo.io/json?token=${apiKey}`);
     const geoData = await geoRes.json();
     const city = geoData.city || "Unknown city";
-    const country_name = geoData.country || "Unknown country";
+    const country = geoData.country || "Unknown country";
 
-    // await supabase
-    //   .from("clicks")
-    //   .insert([
-    //     {
-    //       url_id: id,
-    //       device,
-    //       browser,
-    //       city,
-    //       country: country_name,
-    //     },
-    //   ])
+    await supabase
+      .from("clicks")
+      .insert([
+        {
+          url_id: id,
+          device,
+          browser,
+          city,
+          country,
+        },
+      ])
   } catch (error) {
     console.error("Có lỗi khi lưu lịch sử", error);
   }
