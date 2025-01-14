@@ -19,7 +19,6 @@ import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { UrlState } from "@/context";
 import PasswordVisibilityToggle from "./password-toggle";
-import { Link } from "react-router-dom";
 
 function Login() {
   let [searchParams] = useSearchParams();
@@ -115,12 +114,12 @@ function Login() {
             />
           </div>
           {errors.password && <Error message={errors.password} />}
-          <Link
+          {/* <Link
             to={"/account/forgot-password"}
             className="text-gray-400 text-sm hover:underline float-end"
           >
             Quên mật khẩu?
-          </Link>
+          </Link> */}
         </CardContent>
         <CardFooter>
           <Button onClick={handleLogin}>

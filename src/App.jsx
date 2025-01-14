@@ -10,7 +10,6 @@ import { RouterProvider } from 'react-router-dom'
 import UrlProvider from './context'
 import RequireAuth from './components/requied-auth'
 import NotFoundPage from './pages/404'
-import ForgotPassword from './components/forgot-pasword'
 
 const router = createBrowserRouter([
   {
@@ -30,14 +29,6 @@ const router = createBrowserRouter([
       {
         path: '/auth',
         element: <Auth />,
-      },
-      {
-        path: '/account/forgot-password',
-        element: <ForgotPassword />,
-      },
-      {
-        path: '/account/reset-password',
-        element: <ForgotPassword />,
       },
       {
         path: '/link/:id',

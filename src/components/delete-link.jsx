@@ -41,7 +41,7 @@ function DeleteLink({ fnDelete, onSuccess, loadingDelete }) {
               Bạn có chắc chắn muốn xóa liên kết này không? Hành động này không thể hoàn tác.
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter>
+          <DialogFooter className={"gap-4"}>
             <Button variant="outline" onClick={() => setOpen(false)}>
               Hủy
             </Button>

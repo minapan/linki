@@ -20,7 +20,7 @@ export default function DeviceStats({stats}) {
   return (
     <div style={{width: "100%", height: 300}}>
       <ResponsiveContainer>
-        <PieChart width={700} height={400}>
+        <PieChart >
           <Pie
             data={result}
             labelLine={false}
