@@ -38,7 +38,7 @@ const Header = () => {
                   <AvatarFallback>Avt</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent align="end">
                 <DropdownMenuLabel>
                   {user?.user_metadata?.name}
                 </DropdownMenuLabel>
@@ -56,7 +56,7 @@ const Header = () => {
                       navigate("/auth");
                     });
                   }}
-                  className="text-red-400"
+                  className="text-red-400 gap-0"
                 >
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Đăng xuất</span>
