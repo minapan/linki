@@ -129,7 +129,7 @@ function Link() {
         </div>
         <img
           src={url?.qr}
-          className="w-full self-center sm:self-start ring ring-blue-500 p-1 object-contain"
+          className="w-full self-center sm:self-start rounded-xl ring ring-blue-500 p-1 object-contain"
           alt="qr code"
         />
       </div>}
