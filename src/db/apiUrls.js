@@ -8,7 +8,6 @@ export async function getUrls(user_id) {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error(error);
     throw new Error("Có lỗi khi tải danh sách liên kết");
   }
 
@@ -22,7 +21,6 @@ export async function deleteUrl(id) {
     .eq("id", id);
 
   if (error) {
-    console.error(error);
     throw new Error("Có lỗi khi xóa liên kết");
   }
 
@@ -58,13 +56,50 @@ export async function createUrl({ title, longUrl, password, customUrl, user_id }
     .select();
 
   if (error) {
-    console.error(error);
+    await supabase.storage.from("qrs").remove([fileName]);
     if (error.code === "23505") {
-      throw new Error("Tiêu đề đã được đặt. Vui lòng tạo tiêu đề khác.");
+      throw new Error("Id đã được đặt. Vui lòng tạo id khác.");
     }
-    throw new Error("Có lỗi khi tạo liên kết");
+    throw new Error("Có lỗi khi tạo liên kết.");
   }
 
+  return data;
+}
+
+export async function updateUrl({ id, title, password, custom_url, user_id }) {
+  const { data: currentData, error: fetchError } = await supabase
+    .from("urls")
+    .select("title, password, custom_url")
+    .eq("id", id)
+    .eq("user_id", user_id)
+    .single();
+
+  if (fetchError || !currentData) {
+    throw new Error("Không tìm thấy liên kết để cập nhật.");
+  }
+
+  const updates = {};
+  if (title && title !== currentData.title) updates.title = title;
+  if (password !== undefined && password !== currentData.password) updates.password = password;
+  if (custom_url && custom_url !== currentData.custom_url) updates.custom_url = custom_url;
+
+  if (Object.keys(updates).length === 0) {
+    throw new Error("Không có thay đổi nào để cập nhật.");
+  }
+
+  const { data, error } = await supabase
+    .from("urls")
+    .update(updates)
+    .eq("id", id)
+    .eq("user_id", user_id)
+    .select();
+
+  if (error) {
+    if (error.code === "23505") {
+      throw new Error("Id đã được đặt. Vui lòng chọn một Id khác.");
+    }
+    throw new Error("Đã xảy ra lỗi khi cập nhật liên kết.");
+  }
   return data;
 }
 

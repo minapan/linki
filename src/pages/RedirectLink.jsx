@@ -55,7 +55,7 @@ const RedirectLink = () => {
     (!loading && !loadingStats) ? (
       <div className="flex text-center items-center justify-center ">
         <div className="p-8 rounded-lg shadow-lg max-w-lg w-full">
-          <h1 className="text-4xl font-bold mb-2 capitalize">{data?.title}</h1>
+          <h1 className="text-4xl font-bold mb-2 capitalize break-words">{data?.title}</h1>
           <p className="my-4 text-gray-400">
             Liên kết được rút gọn bởi: <span className="font-semibold text-blue-600">linki.nhatphan.id.vn</span>
           </p>
@@ -70,14 +70,15 @@ const RedirectLink = () => {
             <Dialog open={isModalOpen} onOpenChange={(open) => setIsModalOpen(open)}>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle className="font-bold text-2xl">Nhập mật khẩu</DialogTitle>
+                  <DialogTitle className="font-bold text-2xl">Mở khóa liên kết!</DialogTitle>
                 </DialogHeader>
 
                 <div className="space-y-4">
                   <Input
                     value={password}
+                    maxLength={20}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Nhập mật khẩu"
+                    placeholder="Vui lòng nhập mật khẩu"
                     className="w-full px-4 py-2 border rounded-lg"
                   />
                   {!isPasswordCorrect && (

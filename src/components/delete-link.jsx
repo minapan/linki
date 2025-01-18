@@ -27,7 +27,6 @@ function DeleteLink({ fnDelete, onSuccess, loadingDelete }) {
         <DialogTrigger asChild>
           <Button
             variant="ghost"
-            onClick={() => setOpen(true)}
             disabled={loadingDelete}
           >
             {loadingDelete ? <BeatLoader size={5} color="white" /> : <Trash />}
@@ -42,7 +41,7 @@ function DeleteLink({ fnDelete, onSuccess, loadingDelete }) {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className={"gap-4"}>
-            <Button variant="outline" onClick={() => setOpen(false)}>
+            <Button onClick={() => setOpen(false)}>
               Hủy
             </Button>
             <Button variant="destructive" onClick={handleDelete}>

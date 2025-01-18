@@ -6,9 +6,12 @@ import useFetch from "@/hooks/use-fetch";
 import { deleteUrl } from "@/db/apiUrls";
 import DeleteLink from "./delete-link";
 import { useToast } from "@/hooks/use-toast";
+import EditLink from "./edit-link";
+import { UrlState } from "@/context";
 
 const LinkCard = ({ url = [], fetchUrls }) => {
   const { toast } = useToast()
+  const { user } = UrlState()
   const downloadImage = () => {
     const imageUrl = url?.qr;
     const fileName = url?.title;
@@ -40,10 +43,13 @@ const LinkCard = ({ url = [], fetchUrls }) => {
         <span className="text-xl text-blue-400 font-bold hover:underline cursor-pointer line-clamp-2">
           https://linki.nhatphan.id.vn/{url?.custom_url ? url?.custom_url : url.short_url}
         </span>
-        <span className="hover:underline cursor-pointer line-clamp-2">
+        <span className="hover:underline cursor-pointer truncate">
           {url?.original_url}
         </span>
-
+        <p className="flex items-center gap-2 w-full">
+          Mật khẩu:
+          <span className="font-bold" title={url?.password}>{url?.password || "(Không có)"}</span>
+        </p>
         <span className="flex items-end font-extralight text-sm flex-1">
           {new Date(url?.created_at).toLocaleString()}
         </span>
@@ -64,7 +70,22 @@ const LinkCard = ({ url = [], fetchUrls }) => {
         <Button variant="ghost" onClick={downloadImage}>
           <Download />
         </Button>
-        <DeleteLink fnDelete={fnDelete} onSuccess={fetchUrls} loadingDelete={loadingDelete} />
+        <EditLink url={url} user={user}
+          onSuccess={() => {
+            fetchUrls()
+            toast({
+              description: "Đã cập nhật liên kết"
+            })
+          }} />
+        <DeleteLink fnDelete={fnDelete}
+          onSuccess={
+            () => {
+              fetchUrls()
+              toast({
+                description: "Đã xóa liên kết"
+              })
+            }}
+          loadingDelete={loadingDelete} />
       </div>
     </div>
 

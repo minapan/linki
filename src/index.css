@@ -75,3 +75,7 @@
   --tw-bg-opacity: 1;
   background-color: rgb(2 8 23 / var(--tw-bg-opacity, 1));
 }
+
+button {
+  user-select: none;
+}

@@ -52,6 +52,7 @@ function CreateLink() {
       navigate(`/link/${data[0].id}`)
     }
   }, [error, data])
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -96,17 +97,33 @@ function CreateLink() {
         <DialogHeader>
           <DialogTitle className="font-bold text-2xl">Rút gọn liên kết mới</DialogTitle>
         </DialogHeader>
-
-        <Input id="title" placeholder="Nhập tiêu đề" value={formData.title} onChange={handleChange} />
-        {errors.title && <Error message={errors.title} />}
-        <Input id="longUrl" placeholder="Nhập liên kết cần rút gọn" value={formData.longUrl} onChange={handleChange} />
-        {errors.longUrl && <Error message={errors.longUrl} />}
-        <Input id="password" placeholder="Mật khẩu (Tùy chọn)" value={formData.password} onChange={handleChange} />
-        <div className="flex items-center gap-2">
-          <Card className="p-2">linki.nhatphan.id.vn</Card>/
-          <Input id="customUrl" placeholder="Tùy chỉnh..." value={formData.customUrl} onChange={handleChange} />
+        <div>
+          <label htmlFor="title" className="block text-sm font-medium mb-2">Tiêu đề <span className="text-red-500">*</span></label>
+          <Input id="title" placeholder="Nhập tiêu đề" value={formData.title} onChange={handleChange} />
+          {errors.title && <Error message={errors.title} />}
         </div>
+
+        <div>
+          <label htmlFor="longUrl" className="block text-sm font-medium mb-2">URL <span className="text-red-500">*</span></label>
+          <Input id="longUrl" placeholder="Nhập liên kết cần rút gọn" value={formData.longUrl} onChange={handleChange} />
+          {errors.longUrl && <Error message={errors.longUrl} />}
+        </div>
+
+        <div>
+          <label htmlFor="password" className="block text-sm font-medium mb-2">Mật khẩu (Tùy chọn)</label>
+          <Input id="password" maxLength={20} placeholder="Mật khẩu để mở khóa" value={formData.password} onChange={handleChange} />
+        </div>
+
+        <div>
+          <label htmlFor="customUrl" className="block text-sm font-medium mb-2 ">Tùy chỉnh URL</label>
+          <div className="flex items-center gap-2">
+            <Card className="p-2">linki.nhatphan.id.vn</Card>/
+            <Input id="customUrl" placeholder="Id tùy chỉnh..." value={formData.customUrl} onChange={handleChange} />
+          </div>
+        </div>
+
         {error && <Error message={error.message} />}
+
         <DialogFooter className="flex sm:justify-between sm:items-top">
           {formData?.longUrl && <QRCode value={formData?.longUrl} size={200} ref={ref} />}
           <div className="flex justify-end w-full gap-4 mb-4">

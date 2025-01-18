@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { BarLoader } from "react-spinners";
+import EditLink from "@/components/edit-link";
 
 function Link() {
   const { toast } = useToast()
@@ -58,7 +59,7 @@ function Link() {
     {(loading || loadingStats) && (<BarLoader width={"100%"} color={"#36d7b7"} />)}
     <div className="flex flex-col gap-6 sm:flex-row justify-between max-w-full">
       {!loading && <div className="flex flex-col items-start gap-4 rounded-lg sm:w-2/5">
-        <span className="text-5xl font-extrabold">{url?.title}</span>
+        <span className="text-5xl font-extrabold break-all">{url?.title}</span>
         <a href={`https://linki.nhatphan.id.vn/${link}`} target="_blank"
           className="text-2xl sm:text-3xl text-blue-400 font-bold hover:underline cursor-pointer break-all">
           {`https://linki.nhatphan.id.vn/${link}`}
@@ -73,9 +74,9 @@ function Link() {
             {url?.original_url}
           </span>
         </a>
-        <p className="flex items-center gap-2 truncate w-full">
+        <p className="flex items-center gap-2 w-full">
           Mật khẩu:
-          <span className="font-bold text-base truncate" title={url?.password}>{url?.password || "Không có"}</span>
+          <span className="font-bold text-base" title={url?.password}>{url?.password || "(Không có)"}</span>
           {url?.password && (<Button
             className="p-4"
             variant="ghost"
@@ -108,9 +109,21 @@ function Link() {
           <Button variant="ghost" onClick={downloadImage}>
             <Download />
           </Button>
+          <EditLink url={url} user={user}
+            onSuccess={() => {
+              fn()
+              toast({
+                description: "Đã cập nhật liên kết"
+              })
+            }} />
           <DeleteLink
             fnDelete={fnDelete}
-            onSuccess={() => navigate("/dashboard")}
+            onSuccess={() => {
+              navigate("/dashboard"); 
+              toast({
+                description: "Đã xóa liên kết"
+              })
+            }}
             loadingDelete={loadingDelete}
           />
         </div>
