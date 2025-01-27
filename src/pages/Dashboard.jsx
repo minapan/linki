@@ -75,7 +75,7 @@ function Dashboard() {
       {error && <Error message={error?.message} />}
 
       {urls?.length > 0 && (
-        <div className="flex flex-wrap items-center sm:justify-end gap-4 rounded-lg shadow-md my-4">
+        <div className="flex flex-wrap items-center sm:justify-end gap-4 rounded-lg my-4">
           <div className="flex items-center gap-2 flex-wrap">
             Sắp xếp theo:
             <Select onValueChange={(value) => setSortField(value)} value={sortField}>
