@@ -67,7 +67,6 @@ function EditLink({ url, user, onSuccess }) {
       password: url?.password || "",
       custom_url: url?.custom_url || "",
     });
-    setErrors({});
   };
 
   const handleSave = async () => {

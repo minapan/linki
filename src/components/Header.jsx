@@ -24,7 +24,7 @@ const Header = () => {
 
   return (
     <>
-      <nav className="py-4 flex justify-between items-center">
+      <nav className="pt-4 pb-8 flex justify-between items-center">
         <Link to="/">
           <img
             src="/Linki-black.svg"
@@ -51,10 +51,11 @@ const Header = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>
-                  {user?.user_metadata?.name}
+                  <p className="font-bold">{user?.user_metadata?.name}</p>
+                  <p>{user?.user_metadata?.email}</p>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem className="py-2">
                   <Link to="/dashboard" className="flex">
                     <LinkIcon className="mr-2 h-4 w-4" />
                     Danh sách liên kết
@@ -67,7 +68,7 @@ const Header = () => {
                       navigate("/auth");
                     });
                   }}
-                  className="text-red-400 gap-0"
+                  className="text-red-400 gap-0 py-2"
                 >
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Đăng xuất</span>

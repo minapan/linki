@@ -43,6 +43,7 @@ function PasswordVisibilityToggle({ isPasswordVisible, togglePasswordVisibility 
         </svg>
       )}
     </button>
+    
   );
 }
 

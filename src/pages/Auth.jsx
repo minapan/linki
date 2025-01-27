@@ -1,5 +1,6 @@
 import Login from "@/components/Login";
 import Signup from "@/components/Signup";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UrlState } from "@/context";
 import { logout } from "@/db/apiAuth";
@@ -15,45 +16,48 @@ function Auth() {
   useEffect(() => {
     if (longLink && isAuthenticated) navigate(`/dashboard?createNew=${longLink}`);
   }, []);
-  
+
   const { isAuthenticated, loading } = UrlState();
   const { user, fetchUser } = UrlState();
   const { fn: fnLogout } = useFetch(logout);
 
   return (
-    <div className="flex flex-col items-center gap-10 mt-18">
+    <>
       {isAuthenticated && !loading ? (
         <>
-          <h1 className="text-4xl font-extrabold text-balance">Bạn đã đăng nhập vào tài khoản
-            <span className="text-green-500"> {user?.user_metadata.name}</span>!</h1>
-          <p className="text-lg">
-            Vui lòng đăng xuất trước khi đăng nhập vào tài khoản khác.
-          </p>
-          <div className="flex gap-6">
-            <button
-              onClick={() => {
-                fnLogout().then(() => {
-                  fetchUser();
-                  navigate("/auth");
-                });
-              }}
-              className="px-6 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-            >
-              Đăng xuất
-            </button>
-            <button
-              onClick={() => {navigate("/")}}
-              className="px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              Về trang chủ
-            </button>
+          <div className="flex flex-col items-center gap-6">
+            <h1 className="text-4xl font-extrabold">Bạn đã đăng nhập vào tài khoản
+              <span className="text-green-500"> {user?.user_metadata.name}</span>!</h1>
+            <p className="text-lg">
+              Vui lòng đăng xuất trước khi đăng nhập vào tài khoản khác.
+            </p>
+            <img className="mx-auto h-72" src="/authenticated.svg" alt="" />
+            <div className="flex gap-6">
+              <Button
+                className="bg-red-600 hover:bg-red-500 text-white"
+                onClick={() => {
+                  fnLogout().then(() => {
+                    fetchUser();
+                    navigate("/auth");
+                  });
+                }}
+              >
+                Đăng xuất
+              </Button>
+              <Button
+                className="bg-sky-600 hover:bg-sky-500 "
+                onClick={() => { navigate("/") }}
+              >
+                Về trang chủ
+              </Button>
+            </div>
           </div>
-
         </>
       ) : (
-        <>
-          <h1 className="text-4xl font-extrabold">
-            {longLink ? "Bạn cần đăng nhập trước đã..." : "Đăng nhập / Đăng ký"}
+        <div className="flex flex-col items-center mt-18">
+          <img className="mx-auto h-24" src="/welcome-cats.svg" alt="" />
+          <h1 className="text-4xl font-extrabold mb-6">
+            {longLink ? "Bạn cần đăng nhập trước đã..." : ""}
           </h1>
           <Tabs defaultValue="Login" className="w-[400px]">
             <TabsList className="grid w-full grid-cols-2">
@@ -67,10 +71,10 @@ function Auth() {
               <Signup />
             </TabsContent>
           </Tabs>
-        </>
+        </div>
       )
       }
-    </div >
+    </ >
   );
 }
 

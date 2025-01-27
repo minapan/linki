@@ -19,9 +19,9 @@ const RedirectLink = () => {
     id: data?.id,
   });
 
-  const [password, setPassword] = useState(""); 
-  const [isPasswordCorrect, setIsPasswordCorrect] = useState(true); 
-  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [password, setPassword] = useState("");
+  const [isPasswordCorrect, setIsPasswordCorrect] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     fn();
@@ -37,7 +37,7 @@ const RedirectLink = () => {
 
   const handlePasswordSubmit = () => {
     if (password === data?.password) {
-      window.location.href = data?.original_url; 
+      window.location.href = data?.original_url;
     } else {
       setIsPasswordCorrect(false);
     }
@@ -47,13 +47,13 @@ const RedirectLink = () => {
     if (data?.password) {
       setIsModalOpen(true);
     } else {
-      window.location.href = data?.original_url; 
+      window.location.href = data?.original_url;
     }
   };
-
   return (
     (!loading && !loadingStats) ? (
-      <div className="flex text-center items-center justify-center ">
+      <div className="flex text-center items-center justify-center gap-6">
+        <img src="/tele.svg" alt="open" className="w-1/2 hidden md:block" />
         <div className="p-8 rounded-lg max-w-lg w-full">
           <h1 className="text-4xl font-bold mb-2 capitalize break-words">{data?.title}</h1>
           <p className="my-4">
@@ -61,7 +61,7 @@ const RedirectLink = () => {
           </p>
           <div className="flex flex-col items-center space-y-4">
             <Button
-              onClick={openModal} 
+              onClick={openModal}
               className="w-full px-6 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition duration-300"
             >
               Mở liên kết ngay!
@@ -133,8 +133,8 @@ const RedirectLink = () => {
     ) : (
       <div>
         <BarLoader width={"100%"} color="#36d7b7" />
-        <br />
-        Chờ tí... Đang tải dữ liệu...
+        <p className="text-center text-sky-500 mt-4 text-2xl md:text-3xl">Chờ tí... Đang tải dữ liệu...</p>
+        <img className="mx-auto" src="/wait.avif" alt="" />
       </div>
     )
   );

@@ -67,8 +67,8 @@ function AppLayout() {
         <Toaster />
       </main>
 
-      <div className="p-10 text-white text-center bg-gray-800 mt-10">
-        Made with 💖 by <a target="_blank" href="https://facebook.com/MinhNhat2815">MinhNhatPhan</a>
+      <div className="p-10 text-center mt-4 bg-gradient-to-r from-indigo-600 to-purple-700 text-white rounded-t-3xl">
+        Made with 💖 by <a target="_blank" href="https://facebook.com/minapan204">MinhNhatPhan</a>
       </div>
     </ThemeProvider>);
 }
