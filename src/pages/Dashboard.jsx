@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/pagination";
 import { Filter } from "lucide-react";
 import { getClicks } from "@/db/apiClicks";
+import LinkCardSkeleton from "@/components/ui/linkcard-skeleton";
 
 function Dashboard() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -59,13 +60,13 @@ function Dashboard() {
       setCurrentPage(Number(savedPage));
     }
   }, []);
-  
+
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
       localStorage.setItem("currentPage", page);
     }
-  };  
+  };
 
   useEffect(() => {
     if (urls?.length) fnClicks();
@@ -144,12 +145,24 @@ function Dashboard() {
         </div>
       )}
 
-      {paginatedUrls?.length ? (
+      {loading ? (
+        <div className="space-y-4">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <div key={index} className="flex items-center gap-5 w-full mt-4">
+              <LinkCardSkeleton />
+            </div>
+          ))}
+        </div>
+      ) : error ? (
+        <Error message={error.message} />
+      ) : paginatedUrls?.length ? (
         paginatedUrls.map((url, i) => (
           <LinkCard key={i} url={url} fetchUrls={fnUrls} viewType={viewType} />
         ))
       ) : (
-        <p className="text-center text-gray-400 mt-10">Không có liên kết nào</p>
+        <p className="text-center text-gray-400 mt-10">
+          Không có liên kết nào
+        </p>
       )}
 
       {totalPages > 1 && (
