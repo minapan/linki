@@ -29,9 +29,9 @@ const LinkCard = ({ url = [], fetchUrls, viewType }) => {
   const { loading: loadingDelete, fn: fnDelete } = useFetch(deleteUrl, url.id);
 
   return (
-    <div className={`flex flex-col ${viewType === "basic" ? "md:flex-row" : "space-y-4"} gap-5 border p-6 bg-gray-900 break-all max-w-full overflow-x-hidden`}>
+    <div className={`flex flex-col ${viewType === "basic" ? "md:flex-row" : "space-y-4"} gap-5 border p-6 break-all max-w-full overflow-x-hidden`}>
       {viewType === "detail" && (
-        <div className="flex flex-col md:flex-row gap-5 bg-gray-900 rounded-lg break-all max-w-full overflow-x-hidden">
+        <div className="flex flex-col md:flex-row gap-5 rounded-lg break-all max-w-full overflow-x-hidden">
           <img
             src={url?.qr}
             className="h-32 object-contain ring ring-blue-500 self-start"

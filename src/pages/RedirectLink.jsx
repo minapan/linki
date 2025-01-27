@@ -54,9 +54,9 @@ const RedirectLink = () => {
   return (
     (!loading && !loadingStats) ? (
       <div className="flex text-center items-center justify-center ">
-        <div className="p-8 rounded-lg shadow-lg max-w-lg w-full">
+        <div className="p-8 rounded-lg max-w-lg w-full">
           <h1 className="text-4xl font-bold mb-2 capitalize break-words">{data?.title}</h1>
-          <p className="my-4 text-gray-400">
+          <p className="my-4">
             Liên kết được rút gọn bởi: <span className="font-semibold text-blue-600">linki.nhatphan.id.vn</span>
           </p>
           <div className="flex flex-col items-center space-y-4">

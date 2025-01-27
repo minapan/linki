@@ -29,7 +29,7 @@ function Landing() {
         />
         <Button type="submit" variant="destructive" className="h-full">Rút gọn</Button>
       </form>
-      <img src="./banner.png" alt="Banner" className="w-full my-10 md:px-10" />
+      <img src="./banner.avif" alt="Banner" className="w-full my-10 md:px-10" />
     </div>
     <Accordion type="multiple" collapsible className="w-full md:px-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg shadow-lg p-6">
         <AccordionItem value="item-1">
