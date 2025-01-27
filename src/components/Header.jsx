@@ -28,12 +28,12 @@ const Header = () => {
         <Link to="/">
           <img
             src="/Linki-black.svg"
-            className="h-16 dark:hidden"
+            className="h-12 dark:hidden"
             alt="Linki Logo"
           />
           <img
             src="/Linki.svg"
-            className="h-16 hidden dark:block"
+            className="h-12 hidden dark:block"
             alt="Linki Logo"
           />
         </Link>

@@ -1,22 +1,33 @@
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Error from "@/components/ui/error";
 import { UrlState } from "@/context";
-import { getClicks } from "@/db/apiClicks";
 import { getUrls } from "@/db/apiUrls";
 import useFetch from "@/hooks/use-fetch";
-import { Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
 import { BarLoader } from "react-spinners";
 import LinkCard from "@/components/link-card";
 import CreateLink from "@/components/create-link";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { Filter } from "lucide-react";
+import { getClicks } from "@/db/apiClicks";
 
 function Dashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortField, setSortField] = useState("created_at");
   const [sortOrder, setSortOrder] = useState("desc");
   const [viewType, setViewType] = useState("detail");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   const { user } = UrlState();
   const { loading, data: urls, error, fn: fnUrls } = useFetch(getUrls, user.id);
@@ -35,6 +46,26 @@ function Dashboard() {
         return a[sortField] < b[sortField] ? 1 : -1;
       }
     });
+
+  const totalPages = Math.ceil((filteredUrls?.length || 0) / itemsPerPage);
+  const paginatedUrls = filteredUrls?.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  useEffect(() => {
+    const savedPage = localStorage.getItem("currentPage");
+    if (savedPage) {
+      setCurrentPage(Number(savedPage));
+    }
+  }, []);
+  
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      localStorage.setItem("currentPage", page);
+    }
+  };  
 
   useEffect(() => {
     if (urls?.length) fnClicks();
@@ -113,12 +144,51 @@ function Dashboard() {
         </div>
       )}
 
-      {filteredUrls?.length ? (
-        filteredUrls.map((url, i) => (
+      {paginatedUrls?.length ? (
+        paginatedUrls.map((url, i) => (
           <LinkCard key={i} url={url} fetchUrls={fnUrls} viewType={viewType} />
         ))
       ) : (
         <p className="text-center text-gray-400 mt-10">Không có liên kết nào</p>
+      )}
+
+      {totalPages > 1 && (
+        <Pagination className={"mt-6"}>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                href="#"
+                onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+              />
+            </PaginationItem>
+            {[...Array(totalPages).keys()].map((page) => {
+              const pageIndex = page + 1;
+              if (pageIndex === currentPage || (pageIndex < currentPage + 2 && pageIndex > currentPage - 2)) {
+                return (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      href="#"
+                      onClick={() => handlePageChange(pageIndex)}
+                      className={pageIndex === currentPage ? "font-bold text-blue-500 shadow-md shadow-gray-400 dark:shadow-gray-600" : ""}
+                    >
+                      {pageIndex}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              }
+              if (pageIndex === currentPage - 2 || pageIndex === currentPage + 2) {
+                return <PaginationEllipsis key={page} />;
+              }
+              return null;
+            })}
+            <PaginationItem>
+              <PaginationNext
+                href="#"
+                onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       )}
     </>
   );
