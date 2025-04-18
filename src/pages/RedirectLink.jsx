@@ -31,7 +31,7 @@ const RedirectLink = () => {
     if (!loading && data) {
       fnStats();
     }
-  }, [loading]);
+  }, [loading, data]);
 
   if (!loading && !data) navigate("/error/404");
 
